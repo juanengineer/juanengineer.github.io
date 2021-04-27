@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Juan Castellanos</title>
+
+    <script>
+        function val1(){
+            d = document.getElementById("select_id").value;
+            alert(d);
+        }
+        function val2(){
+            d = document.getElementByClassName("FVD_PS_Combobox")[0].value;
+            alert(d);
+        }
+    </script>
+
+    <script>
+        function getIframeContent(frameID){
+            var frameObj = document.getelementById(frameID);
+            var frameContent = frameObj.contentWindow.document.body.innerHTML;
+            alert("frame content: " + frameContent);
+        }
+    </script>
+
+
+</head>
+
+<body>
+<h1>Hello World 😊, Juan Castellanos here.</h1>
+<em><p>I'm hosted with GitHub Pages.</p></em>
+<label for="myname">My name is:</label>
+<select id="myname">
+    <option value="JC">JC</option>
+    <option value="Castellanos">Castellanos</option>
+</select>
+<hr>
+<!--
+<select id="SelectYears">
+
+    <option value="Honda">Honda</option>
+    <option value="Nissan">Nissan</option>
+
+</select>
+
+<select id="select_id" onchange="val1()">
+    <option value="opt1">opt1</option>
+    <option value="opt2">opt2</option>
+</select>
+-->
+<iframe id="frameID" src="http://filmvinyldesigns.com/patterns-browser-iframe?data=FVD748796&showdetails=false&showcart=false&showprice=false&yearfirst=true"
+        width="605" height="805" scrolling="no" frameborder="0"></iframe>
+
+</body>
+
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>FVD Patterns Web API v2 example</title>
+
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <style>
+        .responsive-img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .pattern-container {
+            margin-top: 5px !important;
+            border: 1px solid #e2e2e2;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        .anchorVrtical10 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+
+        .filter-toggle a, .filter-toggle a:visited, .filter-toggle a:active, .filter-toggle a:focus {
+            color: #fff !important;
+        }
+
+        .filterItem {
+            margin-bottom: 20px;
+        }
+
+        .filterItem label {
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        var apiUrl = "https://services.filmvinyldesigns.com/api/patterns/v2/"
+
+        $.support.cors = true;
+
+        function SetSelect(selectId, restData) {
+
+            if (restData.length == 0) {
+                return;
+            }
+
+            var ddown = $(selectId);
+
+            ddown.empty();
+
+            ddown.append($("<option></option>")
+                .attr("value", 0)
+                .text(""));
+
+            $.each(restData, function (id, val) {
+
+                ddown.append($("<option></option>")
+                    .attr("value", val.ID)
+                    .text(val.Value));
+            })
+
+            ddown.removeAttr("disabled")
+        }
+
+        function ShowError(msg) {
+
+            for (i = 0; i < msg.length; i++) {
+                $("#error").append($("<p>").text(msg));
+            }
+
+            $("#error").fadeIn();
+        }
+
+        // wait until the documnt is loaded
+        $(document).ready(function () {
+
+            // disable all drop downs
+            $("select").attr("disabled", "disabled")
+
+            // setup drop downs events
+            $("#SelectYears").change(function () {
+
+                $("#SelectMakes").empty();
+                $("#SelectModels").empty();
+                $("#SelectTrims").empty();
+                $("#SelectMakes").attr("disabled", "disabled");
+                $("#SelectModels").attr("disabled", "disabled");
+                $("#SelectTrims").attr("disabled", "disabled");
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json",
+                    url: apiUrl + "makes/" + this.value,
+                    data: null,
+                    success:
+                        function (restMakes) {
+                            if (restMakes.Success) {
+                                SetSelect("#SelectMakes", restMakes.Data);
+                            } else {
+                                ShowError(restMakes.Errors);
+                            }
+                        },
+                    error: function (xhr, textStatus, error) {
+                        $("#makeSelect").spin(false);
+                        ShowError(['Ajax error:', xhr.statusText + "; " + textStatus + "; " + error])
+                    }
+                });
+            });
+
+            $("#SelectMakes").change(function () {
+
+                $("#SelectModels").empty();
+                $("#SelectTrims").empty();
+                $("#SelectModels").attr("disabled", "disabled");
+                $("#SelectTrims").attr("disabled", "disabled");
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json",
+                    url: apiUrl + "models/" + this.value + "/" + $("#SelectYears option:selected").val(),
+                    data: null,
+                    success:
+                        function (restModels) {
+                            if (restModels.Success) {
+                                SetSelect("#SelectModels", restModels.Data);
+                            } else {
+                                ShowError(restModels.Errors);
+                            }
+                        },
+                    error: function (xhr, textStatus, error) {
+                        $("#modelSelect").spin(false);
+                        ShowError(['Ajax error:', xhr.statusText + "; " + textStatus + "; " + error])
+                    }
+                });
+            });
+
+            $("#SelectModels").change(function () {
+
+                $("#SelectTrims").empty();
+                $("#SelectTrims").attr("disabled", "disabled");
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json",
+                    url: apiUrl + "trims/" + $("#SelectModels option:selected").val() + "/" + $("#SelectYears option:selected").val(),
+                    data: null,
+                    success:
+                        function (restTrims) {
+                            if (restTrims.Success) {
+                                SetSelect("#SelectTrims", restTrims.Data);
+                            } else {
+                                ShowError(restTrims.Errors);
+                            }
+                        },
+                    error: function (xhr, textStatus, error) {
+                        $("#trimSelect").spin(false);
+                        ShowError(['Ajax error:', xhr.statusText + "; " + textStatus + "; " + error])
+                    }
+
+                });
+            });
+
+            $("#SelectTrims").change(function () {
+
+                $("#PatternsList").fadeTo("slow", 0.2);
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json",
+                    url: apiUrl + "patterns/" + $("#SelectModels option:selected").val() + "/" + $("#SelectTrims option:selected").val() + "/" + $("#SelectYears option:selected").val(),
+                    data: null,
+                    success:
+                        function (restPatterns) {
+                            if (restPatterns.Success) {
+
+                                $("#PatternsList").fadeOut(function () {
+
+                                    $("#PatternsList").empty();
+
+                                    for (i = 0; i < restPatterns.Data.length; i++) {
+
+                                        // render patterns list
+                                        var $patternBlock = $("<div>", { class: "row pattern-container" });
+                                        var $preview = $("<div>", { class: "col-xs-4" });
+                                        var $details = $("<div>", { class: "col-xs-8" });
+
+
+                                        $preview.append($("<img>", { src: apiUrl + "patterns/preview/" + restPatterns.Data[i].PatternID + "/360/260", class: "img-fluid responsive-img" }));
+
+                                        $details.append("<h3>" + restPatterns.Data[i].Description + "</h3>");
+
+                                        for (j = 0; j < restPatterns.Data[i].Vehicles.length; j++) {
+                                            $details.append("<code>" + restPatterns.Data[i].Vehicles[j].ID + "</code>&nbsp;" + restPatterns.Data[i].Vehicles[j].Make.Value + "&nbsp;" + restPatterns.Data[i].Vehicles[j].Model.Value + "&nbsp;" + restPatterns.Data[i].Vehicles[j].Trim.Value + "&nbsp;" + restPatterns.Data[i].Vehicles[j].YearFrom + "-" + restPatterns.Data[i].Vehicles[j].YearTo + "<br />");
+                                        }
+
+
+                                        $details.append("<p><small>" + "sqft:" + new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(restPatterns.Data[i].Sqft) + ";&nbsp;Difficulty:" + new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(restPatterns.Data[i].Difficulty) + "</small></p>");
+                                        $details.append("<p><big><strong>" + new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(restPatterns.Data[i].Price) + "</strong></big></p>");
+
+                                        $patternBlock.append($preview);
+                                        $patternBlock.append($details);
+
+
+                                        $("#PatternsList").append($patternBlock);
+
+                                    }
+                                });
+                                $("#PatternsList").fadeTo("slow", 1);
+                                $("#PatternsList").fadeIn();
+                            }
+                            else {
+                                ShowError(restPatterns.Errors);
+                            }
+
+                        }
+
+
+                });
+
+            });
+
+            // sending authentication request
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                url: apiUrl + "auth",
+                data: JSON.stringify({ ID: "token", Value: "62DC616B-54F7-4A60-8CE6-D37626A50036" }), // demo token
+                success:
+                    function (restData) {
+
+                        // check the API responce status
+                        if (restData.Success == true) {
+
+                            // sending request for the Years list
+                            // You can also request the Makes list first, API supports both options. Read API reference for details.
+                            $.ajax({
+                                type: "GET",
+                                dataType: "json",
+                                contentType: "application/json",
+                                url: apiUrl + "years/0/0",
+                                data: null,
+                                success:
+                                    function (restYears) {
+                                        if (restYears.Success) {
+                                            SetSelect("#SelectYears", restYears.Data);
+                                        } else {
+                                            ShowError(restYears.Errors);
+                                        }
+                                    },
+                                error: function (xhr, textStatus, error) {
+                                    ShowError(['Ajax error:', xhr.statusText + "; " + textStatus + "; " + error])
+                                }
+                            });
+                        }
+                        else {
+                            // handle the API response error
+                            ShowError(restData.Errors);
+                        }
+                    }
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="collapse1" class="panel-collapse collapse in">
+    <div class="panel-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row filterItem">
+                        <div class="col-xs-2 text-right">
+                            <label for="SelectYears">Year</label>
+                        </div>
+                        <div class="col-xs-10" id="yearSelect">
+                            <select id="SelectYears" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="row filterItem">
+                        <div class="col-xs-2 text-right">
+                            <label for="SelectMakes">Make</label>
+
+                        </div>
+                        <div class="col-xs-10" id="makeSelect">
+                            <select id="SelectMakes" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="row filterItem">
+                        <div class="col-xs-2 text-right">
+                            <label for="SelectModels">Model</label>
+                        </div>
+                        <div class="col-xs-10" id="modelSelect">
+                            <select id="SelectModels" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="row filterItem">
+                        <div class="col-xs-2 text-right">
+                            <label for="SelectTrims">Trim</label>
+                        </div>
+                        <div class="col-xs-10" id="trimSelect">
+                            <select id="SelectTrims" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div id="error" class="alert alert-danger alert-dismissable" style="display:none;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    </div>
+    <div id="pWaiter" style="width:100%; text-align:center"></div>
+    <div id="PatternsList" style="display:none;">
+    </div>
+</div>
+</body>
+</html>
