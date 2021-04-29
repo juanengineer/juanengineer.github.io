@@ -3,19 +3,53 @@
     <head>
         <meta charset="UTF-8">
         <title>Juan Castellanos</title>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
             //jQuery: AJAX = Asynchronous Javascript And XML
             function loadDoc(){
-                var xhttp = new XMLHttpRequest():
-                xhttp.onreadystatechange = function(){
-                    if (this.readyState == 4 && this.status == 200){
-                        document.getElementById('demo').innerHTML = this.responseText;
+                $("#demo").load("https://cors-anywhere.herokuapp.com/http://carnes.cc/code/ajax_example.txt",
 
-                    }
-                };
-                xhttp.open("GET","https://cors-anywhere.herokuapp.com/http://carnes.cc/code/ajax_example.txt",true);
-                xhttp.send();
+                    function(responseTxt, statusTxt, xhr){
+                        if(statusTxt=="success")
+                            alert("Externl content loaded successfully!");
+                        if(statusTxt=="error")
+                            alert("Error: "+xhr.status+": "+ xhr.statusText);
+                    });
+
+
+//$("#demo").load("https:juanengineer.github.io/index.html")
+
+//   var xhttp = new XMLHttpRequest():
+//   xhttp.onreadystatechange = function(){
+//     if (this.readyState == 4 && this.status == 200){
+//       document.getElementById('demo').innerHTML = this.responseText;
+
+//     }
+//   };
+//   xhttp.open("GET","https://cors-anywhere.herokuapp.com/http://carnes.cc/code/ajax_example.txt",true);
+//   xhttp.send();
+
+            }
+        </script>
+        <script>
+            async function start(){
+                const response = await fetch("https://dog.ceo/api/breeds/list/all");
+                const data = await response.json();
+                createBreedList(data.message)
+            }
+
+            start()
+
+            function createBreedList(breedList){
+                document.getElementById("breed").innerHTML=`
+                <select>
+                    <option value="">Choose a dog breed</option>
+                    ${Object.keys(breedList).map(function (breed) {
+                        return `<option>${breed}</option>`
+                    }).join('')}
+                </select>
+                `;
+
             }
         </script>
     </head>
@@ -35,6 +69,11 @@
     <h1>AJAX with jQuery</h1>
     <p id="demo">Let AJAX change this text</p>
     <button type="button" onclick="loadDoc()">Change Content</button>
+    <hr>
+    <h1>Infinite Dog App</h1>
+    <div id="breed">
+        what's up
+    </div>
 </body>
 
 </html>
