@@ -5,6 +5,23 @@
         <title>Juan Castellanos</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
+            var tweet = prompt("Compose your tweet");
+            alert("You have written "+tweet.length + " characters and you have "
+            + (140-tweet.length) + " remaining.");
+
+            if (tweet.length > 140){
+                alert("Your truncated tweet is then \""+tweet.slice(0,141) + "\"");
+            }
+            else
+            alert("Your tweet is \"" + tweet + "\"");
+
+        var name ="Angela";
+        name.slice(0,3);
+
+        alert(prompt("Compose the tweet:").slice(0,140).toUpperCase());
+        </script>
+        
+        <script>
             //jQuery: AJAX = Asynchronous Javascript And XML
             function loadDoc(){
                 $("#demo").load("https://cors-anywhere.herokuapp.com/http://carnes.cc/code/ajax_example.txt",
