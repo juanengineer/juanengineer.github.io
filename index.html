@@ -5,22 +5,25 @@
         <title>Juan Castellanos</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            var tweet = prompt("Compose your tweet");
-            alert("You have written "+tweet.length + " characters and you have "
-            + (140-tweet.length) + " remaining.");
+            function composeTweet(){
+                var tweet = prompt("Compose your tweet");
+                alert("You have written "+tweet.length + " characters and you have "
+                    + (140-tweet.length) + " remaining.");
 
-            if (tweet.length > 140){
-                alert("Your truncated tweet is then \""+tweet.slice(0,141) + "\"");
+                if (tweet.length > 140){
+                    alert("Your truncated tweet is then \""+tweet.slice(0,141) + "\"");
+                }
+                else
+                    alert("Your tweet is \"" + tweet + "\"");
+
+                var name ="Juan Castellanos-Smith";
+                name.slice(0,3);
+
+                alert(prompt("Compose the tweet:").slice(0,140).toUpperCase());
             }
-            else
-            alert("Your tweet is \"" + tweet + "\"");
 
-        var name ="Angela";
-        name.slice(0,3);
-
-        alert(prompt("Compose the tweet:").slice(0,140).toUpperCase());
         </script>
-        
+
         <script>
             //jQuery: AJAX = Asynchronous Javascript And XML
             function loadDoc(){
@@ -83,14 +86,16 @@
     <h2><strong>Check out my Spotify API Portfolio project <a href="https://juanengineer.github.io/demo_spotify_api">here</a></strong></h2>
     <hr>
     <h2>This is an AJAX with jQuery example</h2>
-    <h1>AJAX with jQuery</h1>
     <p id="demo">Let AJAX change this text</p>
     <button type="button" onclick="loadDoc()">Change Content</button>
     <hr>
-    <h1>Infinite Dog App</h1>
+    <h2>Infinite Dog App</h2>
     <div id="breed">
         what's up
     </div>
+    <hr>
+    <h2>Fake a tweet</h2>
+    <button type="button" onclick="composeTweet()">Write a fake tweet</button>
 </body>
 
 </html>
