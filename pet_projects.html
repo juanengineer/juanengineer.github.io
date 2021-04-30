@@ -3,8 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <title>Pet Projects</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function composeTweet(){
+            var tweet = prompt("Compose your tweet");
+            alert("You have written "+tweet.length + " characters and you have "
+                + (140-tweet.length) + " remaining.");
+
+            if (tweet.length > 140){
+                alert("Your truncated tweet is then \""+tweet.slice(0,141) + "\"");
+            }
+            else
+                alert("Your tweet is \"" + tweet + "\"");
+
+            var name ="Juan Castellanos-Smith";
+            name.slice(0,3);
+
+            alert(prompt("Compose the tweet:").slice(0,140).toUpperCase());
+        }
+
+    </script>
+
+    <script>
+        //jQuery: AJAX = Asynchronous Javascript And XML
+        function loadDoc(){
+            $("#demo").load("https://cors-anywhere.herokuapp.com/http://carnes.cc/code/ajax_example.txt",
+
+                function(responseTxt, statusTxt, xhr){
+                    if(statusTxt=="success")
+                        alert("Externl content loaded successfully!");
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+ xhr.statusText);
+                });
+
+
+//$("#demo").load("https:juanengineer.github.io/index.html")
+
+//   var xhttp = new XMLHttpRequest():
+//   xhttp.onreadystatechange = function(){
+//     if (this.readyState == 4 && this.status == 200){
+//       document.getElementById('demo').innerHTML = this.responseText;
+
+//     }
+//   };
+//   xhttp.open("GET","https://cors-anywhere.herokuapp.com/http://carnes.cc/code/ajax_example.txt",true);
+//   xhttp.send();
+
+        }
+    </script>
+    <script>
+        async function start(){
+            const response = await fetch("https://dog.ceo/api/breeds/list/all");
+            const data = await response.json();
+            createBreedList(data.message)
+        }
+
+        start()
+
+        function createBreedList(breedList){
+            document.getElementById("breed").innerHTML=`
+                <select>
+                    <option value="">Choose a dog breed</option>
+                    ${Object.keys(breedList).map(function (breed) {
+                return `<option>${breed}</option>`
+            }).join('')}
+                </select>
+                `;
+
+        }
+    </script>
 </head>
+
 <body>
-    This is a test page for Projects.
+<img src="juan-circle-cropped.png" alt="Juan profile photo" width=200px>
+<h1>This page features some pet projects.😜</h1>
+<br>
+<ul>
+    <li>
+        <label for="myname">My name is:</label>
+        <select id="myname">
+            <option value="JC">JC</option>
+            <option value="Castellanos">Castellanos</option>
+        </select>
+    </li>
+    <br>
+    <li>
+        Check out my Spotify API Portfolio project <a href="https://juanengineer.github.io/demo_spotify_api">here</a>
+    </li>
+    <br>
+    <li>
+        This is an AJAX with jQuery example: <strong><label id="demo">Let AJAX change this text</label></strong>
+        <button type="button" onclick="loadDoc()">Change Content</button>
+    </li>
+    <br>
+    <li>
+        Infinite Dog App <label id="breed">To be replaced with dropdown by JS</label>
+    </li>
+    <br>
+    <li>
+        Fake a tweet <button type="button" onclick="composeTweet()">Write a fake tweet</button>
+    </li>
+    <br>
+    <li>
+        <a href="./">Home</a>
+    </li>
+</ul>
+
 </body>
+
 </html>
