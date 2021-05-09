@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Retirement Calculations</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Simple Retirement Calculations</h1>
+    <br>
+    <label>What is your current age?</label>
+    <input type="text" name="userAge" value="">
+    <br><br>
+    <table id="assetAllocations">
+        <tr>
+            <td>Stocks (%)</td>
+            <td>Bonds (%)</td>
+        </tr>
+        <tr>
+            <td>60</td>
+            <td>40</td>
+        </tr>
+    </table>
+    <br><br>
+    <label>What is your current salary?</label>
+    <input type="text" name="userSalary" value="">
+    <br><br>
+    <label>How much you should have saved at each age.</label>
+    <br><br>
+    <table id="savingsByAge"></table>
+
+    <table>
+        <tr id="rowAge">
+            <td>Age</td>
+            <td>30</td>
+            <td>35</td>
+            <td>40</td>
+            <td>45</td>
+            <td>50</td>
+            <td>55</td>
+            <td>60</td>
+            <td>65</td>
+        </tr>
+        <tr id="rowSavings">
+            <td>Savings</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+        </tr>
+    </table>
+
+
+    <script>
+        $("rowSavings").html(
+            "<td>replaced</td>" +
+            "<td>11</td>" +
+            "<td>21</td>" +
+            "<td>31</td>" +
+            "<td>41</td>" +
+            "<td>51</td>" +
+            "<td>61</td>" +
+            "<td>71</td>" +
+            "<td>81</td>");
+    </script>
+    <br><br>
+
+
+</body>
+</html>
