@@ -9,21 +9,35 @@
     <h1>Simple Retirement Calculations</h1>
     <br>
     <label>What is your current age?</label>
-    <input type="text" name="userAge" value="">
+    <input id="ageEntryField" type="text" name="userAge" value="20">
+    <label>years</label>
+    <br>
+    <button onclick="stockAllocations()">Calculate  Allocations</button>
+    <!-- <input type="submit" name="ageSubmit" action="stockAllocations"> -->
     <br><br>
+    <h3>Portfolio Allocations</h3>
     <table id="assetAllocations">
         <tr>
             <td>Stocks (%)</td>
             <td>Bonds (%)</td>
+            <td>Crypto (%)</td>
         </tr>
         <tr>
-            <td>60</td>
-            <td>40</td>
+
+            <td id="stockAlloc">75</td>
+            <td id="bondAlloc" >20</td>
+            <td                >5</td>
         </tr>
     </table>
+
     <br><br>
+    <h3>Savings</h3>
     <label>What is your current salary?</label>
-    <input type="text" name="userSalary" value="">
+    <label>$</label>
+    <input id="salaryEntryField" type="text" name="userSalary" value="10">
+    <label>k/year</label>
+    <br>
+    <button onclick="savingsByAge()">Calculate Savings</button>
     <br><br>
     <label>How much you should have saved at each age.</label>
     <br><br>
@@ -40,6 +54,7 @@
             <td>55</td>
             <td>60</td>
             <td>65</td>
+            <td>70</td>
         </tr>
         <tr id="rowSavings">
             <td>Savings</td>
@@ -51,21 +66,37 @@
             <td>6</td>
             <td>7</td>
             <td>8</td>
+            <td>9</td>
         </tr>
     </table>
 
+    <br><br>
+    <li>
+        <a href="./">Home</a>
+    </li>
 
     <script>
-        $("rowSavings").html(
-            "<td>replaced</td>" +
-            "<td>11</td>" +
-            "<td>21</td>" +
-            "<td>31</td>" +
-            "<td>41</td>" +
-            "<td>51</td>" +
-            "<td>61</td>" +
-            "<td>71</td>" +
-            "<td>81</td>");
+        function stockAllocations(){
+            var userAge = document.querySelector("#ageEntryField").value;
+            document.querySelector("#bondAlloc").innerHTML=userAge; //Bond allocation equal to age
+            document.querySelector("#stockAlloc").innerHTML=100-5-userAge; //Stock alloc is 100 - age
+        }
+
+        function savingsByAge(){
+            var userSalary = document.querySelector("#salaryEntryField").value;
+            var savingsTableLength = document.querySelectorAll("#rowAge td").length
+            for(var i=0; i<savingsTableLength; i++){
+                if (i===0){
+                    continue;
+                }
+                else{
+                    document.querySelectorAll("#rowSavings td")[i].innerHTML= userSalary*(i); //separate selector children by spaces
+
+                }
+            }
+        }
+        //document.getElementById("bondAlloc").innerHTML = "test";
+
     </script>
     <br><br>
 
