@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Me</title>
+</head>
+<body>
+    <h1>
+        Academic, Internship and Hobby Projects
+    </h1>
+    <br>
+     <ul>
+        <br>
+        <li>
+            <a href="https://drive.google.com/file/d/0BzRiU88BzucYcUVDcjhfa1NHYVE/view?usp=sharing">Continuous Noninvasive Arterial Pressure Measurement using Pulse Transit Time (2017)</a>
+        </li>
+        <li>
+            <a href="https://drive.google.com/file/d/1bPcmV04UnRHKXoS8mqoZPQdMae-ofN3x/view?usp=sharing">Battery State UKF using BeagleBone Black and Arduino (2016)</a>
+        </li>
+        <br>
+        <li>
+            <a href="pet_projects.html">Pet Code Projects</a>
+        </li>
+     
+     </ul>
+    <br>
+    <a href="./">Home</a>
+</body>
+</html>
