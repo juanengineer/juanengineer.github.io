@@ -1,0 +1,25 @@
+body{
+    background-color: white;
+}
+
+/*
+.big-title{
+    font-size: 10rem;
+    color: blue;
+    font-family: "Lucida Handwriting";
+}
+*/
+
+.trash{
+    color: orangered;
+}
+
+.recycle{
+    color: greenyellow;
+}
+
+/*
+.margin-50{
+    margin: 50px;
+}
+*/
