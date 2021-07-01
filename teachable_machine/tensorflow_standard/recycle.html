@@ -45,8 +45,11 @@
         // append elements to the DOM
         document.getElementById("webcam-container").appendChild(webcam.canvas);
         labelContainer = document.getElementById("label-container");
+        var classLabelID = "";//Juan: string var
         for (let i = 0; i < maxPredictions; i++) { // and class labels
+            classLabelID = "modelClass" + i;     //Change classLabel id
             labelContainer.appendChild(document.createElement("div"));
+            labelContainer.childNodes[i].setAttribute("id",classLabelID);
         }
     }
 
@@ -60,13 +63,7 @@
     async function predict() {
         // predict can take in an image, video or canvas html element
         const prediction = await model.predict(webcam.canvas);
-        /*
-        $("button").click(
-            function(){
-                $("h1").css("color","purple");
-            }
-        )
-        */
+
         for (let i = 0; i < maxPredictions; i++) {
             /*
             const classPrediction =
@@ -74,14 +71,35 @@
             //labelContainer.childNodes[i].innerHTML = classPrediction;
             */
 
-            const predVal = prediction[i].probability.toFixed(2);
+            var predVal = prediction[i].probability.toFixed(2);
             var yesOrNo = "";
             yesOrNo = (predVal > 0.75) ? "Yes": "No";
             const classPrediction =
-                prediction[i].className + ": " + yesOrNo;
-            if (prediction[i].className === "Trash") $("prediction[i].className").css("color","greenyellow");
-            //$("prediction[i].className").css("color","purple");
+                prediction[i].className + ": " + yesOrNo + " " + predVal;
+
             labelContainer.childNodes[i].innerHTML = classPrediction;
+            /*
+            if(predVal > 0.50){
+                if (i === 0) $("#modelClass0").css("color","orangered");
+                //if (i === 0) $("#modelClass0").css("color","orangered");
+                //if (i===0) document.querySelectorAll("#modelClass0")[0].style.color="orangered";  //Trash
+                //if (i===1) document.querySelectorAll("#modelClass1")[0].style.color="green";      //Recycle
+            }
+            else if (predVal <= 0.50){
+
+                //$("#modelClass0").css("color","black");
+                //document.querySelectorAll("#modelClass0")[0].style.color="black";
+                //document.querySelectorAll("#modelClass1")[0].style.color="black";
+
+
+            }
+            */
+            //$("#label-container").css("color","greenyellow");
+            //$("div:contains(Trash)").css("color","green");
+            //if (prediction[i].className === "Trash")
+            //console.log(prediction[i].className);
+            //$("prediction[i].className").css("color","purple");
+
         }
     }
 </script>
