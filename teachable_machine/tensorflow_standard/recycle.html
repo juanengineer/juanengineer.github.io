@@ -79,7 +79,9 @@
             yesOrNo = (predVal > 0.75) ? "Yes": "No";
             const classPrediction =
                 prediction[i].className + ": " + yesOrNo;
-            labelContainer.childNodes[i].innerHTML = classPrediction; //Juan original
+            if (prediction[i].className === "Trash") $("prediction[i].className").css("color","greenyellow");
+            //$("prediction[i].className").css("color","purple");
+            labelContainer.childNodes[i].innerHTML = classPrediction;
         }
     }
 </script>
